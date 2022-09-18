@@ -1,5 +1,11 @@
 # Primer Examen Parcial
 
+## Pruebas
+![prueba_parcial_1_distri](https://user-images.githubusercontent.com/61977214/190925538-bd5aff06-264f-465b-a886-53be2f281af6.png)
+![operacion_1_distri](https://user-images.githubusercontent.com/61977214/190925546-5541ef76-ec86-4e2c-bef2-b6099fc6ec09.png)
+![operacion_2_distri](https://user-images.githubusercontent.com/61977214/190925548-03b840d5-b5a1-4294-a83a-c1d99846d678.png)
+
+
 ## Clases
 
 ### En entidad
