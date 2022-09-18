@@ -11,13 +11,13 @@ public class TestSensorDAO {
 
         SensorDAO sdao = new SensorDAO();
 
-        sdao.insertar(new Sensor(1, 1, 1, "2016-01-01", "00:00:00", 1, "Asuncion"));
-        sdao.insertar(new Sensor(2, 2, 2, "2016-01-01", "00:00:00", 2, "Asuncion"));
-        sdao.insertar(new Sensor(3, 3, 3, "2016-01-01", "00:00:00", 3, "Asuncion"));
-        sdao.insertar(new Sensor(4, 4, 4, "2016-01-01", "00:00:00", 4, "Asuncion"));
+        sdao.insertar(new Sensor(1L, 1.0, 1.0, "2016-01-01", "00:00:00", 1.0, "Asuncion"));
+        sdao.insertar(new Sensor(2L, 2.0, 2.0, "2016-01-01", "00:00:00", 2.0, "Asuncion"));
+        sdao.insertar(new Sensor(3L, 3.0, 3.0, "2016-01-01", "00:00:00", 3.0, "Asuncion"));
+        sdao.insertar(new Sensor(4L, 4.0, 4.0, "2016-01-01", "00:00:00", 4.0, "Asuncion"));
 
-        sdao.actualizar(new Sensor(2, 2, 2, "2016-01-01", "00:00:00", 2, "Asuncion"));
+        sdao.actualizar(new Sensor(2L, 2.0, 2.0, "2016-01-01", "00:00:00", 2.0, "Asuncion"));
 
         sdao.borrar(4);
-}
+    }
 }

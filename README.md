@@ -1,42 +1,67 @@
-# Para ejecutar con Docker
+# Primer Examen Parcial
+
+## Clases
+
+### En entidad
+
+Se creo la entidad Sensor para referirnos a los datos de los sensores meteorológicos
+Se creo el SensorJson en la cual creamos metodos que nos va a permitir mapear de una estructura en forma de JSON a un objeto e viceversa.
+
+### En bd
+
+Se creo el SensorDAO donde aplicamos las operaciones que deseamos, se agrega un CRUD normal, ademas la operacion pedido en el ejercicio que seria traer todos los sensores y obtener la temperatura segun la ciudad especificada
+Se creo un Test del SensorDAO donde son datos mocks para utilizar sobre las operaciones creadas.
+
+### En el server udp
+
+Modificamos el cliente y servidor de UDP para que utilice las funcionalidades referente a Sensores.
+
+## Para ejecutar con Docker
 
 ## Crear la imagen
 
 ```console
-sudo docker compose build --no-cache
+docker-compose build --no-cache
 ```
 
 ## Levantar el container
 
 ```console
-sudo docker compose up
+docker-compose up
 ```
 
-## Crear tabla persona
+## Crear tabla Sensor
 
 ```console
-sudo docker compose exec db psql --username=postgres --dbname=sd -c "CREATE TABLE persona (cedula INTEGER PRIMARY KEY, nombre VARCHAR (100), apellido VARCHAR (100));"
+docker-compose exec db psql --username=postgres --dbname=sd -c "CREATE TABLE sensor (id_estacion INTEGER PRIMARY KEY, ciudad VARCHAR (100), porcentaje_humedad NUMERIC, temperatura NUMERIC, velocidad_viento NUMERIC, fecha DATE, hora TIME);"
 ```
 
-## Abrir una terminal
+## Abrir una nueva terminal
 
 ```console
-docker exec -it lab-socket-java-1 /bin/bash
+docker exec -it parcial-distri_java_1 /bin/bash
 ```
 
-### Dentro de la terminal
-
-- Se puede editar el pom.xml con 'vi' y se coloca el nombre de la clase a compilar
-- Para compilar se utiliza el comando
+### Abrir una nueva terminal para el Server
 
 ```console
 mvn clean package
 ```
 
-- Para ejecutar el compilado
+Para levantar el servidor
 
 ```console
-java -jar nombreArchivo.jar
+java -jar server.udp.UDPServer\<.jar
 ```
 
-- En la construccion de la imagen ya se compila todas las clases del lab
+## Abrir una nueva terminal para el cliente
+
+```console
+docker exec -it parcial-distri_java_1 /bin/bash
+```
+
+Para levantar el cliente
+
+```console
+java -jar server.udp.UDPClient\<.jar
+```

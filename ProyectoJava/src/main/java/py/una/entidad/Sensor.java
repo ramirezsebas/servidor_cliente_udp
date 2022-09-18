@@ -2,19 +2,21 @@ package py.una.entidad;
 
 public class Sensor {
 
-    private int idEstacion;
-    private double porcentajeHumedad;
-    private double velocidadViento;
+    private long idEstacion;
+    private Double porcentajeHumedad;
+    private Double velocidadViento;
     private String fecha;
     private String hora;
-    private double temperatura;
+    private Double temperatura;
     private String ciudad;
 
     public Sensor() {
     }
 
-    public Sensor(int idEstacion, double porcentajeHumedad, double velocidadViento, String fecha, String hora,
-            double temperatura, String ciudad) {
+    
+
+    public Sensor(long idEstacion, Double porcentajeHumedad, Double velocidadViento, String fecha, String hora,
+            Double temperatura, String ciudad) {
         this.idEstacion = idEstacion;
         this.porcentajeHumedad = porcentajeHumedad;
         this.velocidadViento = velocidadViento;
@@ -33,27 +35,27 @@ public class Sensor {
         this.ciudad = ciudad;
     }
 
-    public double getPorcentajeHumedad() {
+    public Double getPorcentajeHumedad() {
         return porcentajeHumedad;
     }
 
-    public void setPorcentajeHumedad(double porcentajeHumedad) {
+    public void setPorcentajeHumedad(Double porcentajeHumedad) {
         this.porcentajeHumedad = porcentajeHumedad;
     }
 
-    public double getTemperatura() {
+    public Double getTemperatura() {
         return temperatura;
     }
 
-    public void setTemperatura(double temperatura) {
+    public void setTemperatura(Double temperatura) {
         this.temperatura = temperatura;
     }
 
-    public double getVelocidadViento() {
+    public Double getVelocidadViento() {
         return velocidadViento;
     }
 
-    public void setVelocidadViento(double velocidadViento) {
+    public void setVelocidadViento(Double velocidadViento) {
         this.velocidadViento = velocidadViento;
     }
 
@@ -73,12 +75,19 @@ public class Sensor {
         this.hora = hora;
     }
 
-    public int getIdEstacion() {
+    public long getIdEstacion() {
         return idEstacion;
     }
 
-    public void setIdEstacion(int idEstacion) {
+    public void setIdEstacion(long idEstacion) {
         this.idEstacion = idEstacion;
+    }
+
+    @Override
+    public String toString() {
+        return "Sensor [idEstacion=" + idEstacion + ", porcentajeHumedad=" + porcentajeHumedad + ", velocidadViento="
+                + velocidadViento + ", fecha=" + fecha + ", hora=" + hora + ", temperatura=" + temperatura + ", ciudad="
+                + ciudad + "]";
     }
 
 }

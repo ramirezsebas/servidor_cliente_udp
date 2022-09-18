@@ -9,24 +9,17 @@ public class SensorJSON {
 
         System.out.println("Ejemplo de uso 1: pasar de objeto a string");
         Sensor p = new Sensor(
-                1, 1, 1, "2016-01-01", "00:00:00", 1, "Asuncion");
-        p.setIdEstacion(1);
-        p.setPorcentajeHumedad(0.5);
-        p.setVelocidadViento(0.5);
-        p.setFecha("2018-01-01");
-        p.setHora("12:00:00");
-        p.setTemperatura(0.5);
-        p.setCiudad("Asuncion");
+                1L, 1d, 1d, "01/01/2016", "12:00:00", 1d, "Asuncion");
 
         String r1 = SensorJSON.objetoString(p);
         System.out.println(r1);
 
         System.out.println("\n*************************************************************************");
         System.out.println("\nEjemplo de uso 2: pasar de string a objeto");
-        String jsonString = "{\"id_estacion\":1,\"porcentaje_humedad\":0.5,\"velocidad_viento\":0.5,\"fecha\":\"2018-01-01\",\"hora\":\"12:00:00\",\"temperatura\":0.5,\"ciudad\":\"Asuncion\"}";
+        String jsonString = "{\"id_estacion\":1,\"porcentaje_humedad\":0.5,\"velocidad_viento\":0.5,\"fecha\":\"01/01/2016\",\"hora\":\"12:00:00\",\"temperatura\":0.5,\"ciudad\":\"Asuncion\"}";
 
         Sensor r2 = SensorJSON.stringObjeto(jsonString);
-        int idEstacion = r2.getIdEstacion();
+        long idEstacion = r2.getIdEstacion();
         double porcentajeHumedad = r2.getPorcentajeHumedad();
         double velocidadViento = r2.getVelocidadViento();
         String fecha = r2.getFecha();
@@ -65,16 +58,16 @@ public class SensorJSON {
         Object obj = parser.parse(str.trim());
         JSONObject jsonObject = (JSONObject) obj;
 
-        int idEstacion = (int) jsonObject.get("id_estacion");
+        Long idEstacion = (Long) jsonObject.get("id_estacion");
         p.setIdEstacion(idEstacion);
 
         String ciudad = (String) jsonObject.get("ciudad");
         p.setCiudad(ciudad);
 
-        double porcentajeHumedad = (double) jsonObject.get("porcentaje_humedad");
+        Double porcentajeHumedad = (Double) jsonObject.get("porcentaje_humedad");
         p.setPorcentajeHumedad(porcentajeHumedad);
 
-        double temperatura = (double) jsonObject.get("temperatura");
+        Double temperatura = (Double) jsonObject.get("temperatura");
         p.setTemperatura(temperatura);
 
         String fecha = (String) jsonObject.get("fecha");
@@ -83,7 +76,7 @@ public class SensorJSON {
         String hora = (String) jsonObject.get("hora");
         p.setHora(hora);
 
-        double velocidadViento = (double) jsonObject.get("velocidad_viento");
+        Double velocidadViento = (Double) jsonObject.get("velocidad_viento");
         p.setVelocidadViento(velocidadViento);
 
         return p;

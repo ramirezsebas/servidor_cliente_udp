@@ -3,9 +3,6 @@ package py.una.server.udp;
 import java.io.*;
 import java.net.*;
 
-import py.una.entidad.Sensor;
-import py.una.entidad.SensorJSON;
-
 class UDPClient {
 
     public static void main(String a[]) throws Exception {
@@ -22,98 +19,93 @@ class UDPClient {
         try {
 
             BufferedReader inFromUser = new BufferedReader(new InputStreamReader(System.in));
-
+            InetAddress IPAddress = InetAddress.getByName(direccionServidor);
             DatagramSocket clientSocket = new DatagramSocket();
 
-            InetAddress IPAddress = InetAddress.getByName(direccionServidor);
+            System.out.println("UDP Cliente");
+            System.out.println("Alumno: " + "Matias Sebastian Ramirez Brizuela");
+            System.out.println("Cedula: " + "4.449.096");
+            System.out.println("Fecha Nacimiento: " + "20 de Diciembre de 1998");
+            System.out.println();
             System.out.println("Intentando conectar a = " + IPAddress + ":" + puertoServidor + " via UDP...");
+
+            System.out.println("_____________________________________________________________________");
+
+            // Preguntarle al usuario que operacion desea realizar
+            System.out.println("Seleccione la operacion que desea realizar: ");
+            System.out.println("1 - Retornar todos los sensores");
+            System.out.println("2 - Retornar la temperatura de un sensor en particular dependiendo de la ciudad");
+            System.out.println("Cualquier otro numero - Cerrar el cliente");
+
+            String operacion = inFromUser.readLine();
+
+
+           
 
             byte[] sendData = new byte[1024];
             byte[] receiveData = new byte[1024];
 
-            System.out.print("Ingrese el id del estacion (debe ser numérico): ");
-            String strcedula = inFromUser.readLine();
-            int idEstacion;
-            ;
-            try {
-                idEstacion = Integer.parseInt(strcedula);
-            } catch (Exception e1) {
-                throw new Exception("El id del estacion debe ser numérico");
-            }
+            sendData = operacion.getBytes();
 
-            System.out.print("Ingrese la ciudad: ");
-            String ciudad = inFromUser.readLine();
-
-            System.out.print("Ingrese el porcentaje de humedad (debe ser numérico): ");
-            String strporcentajeHumedad = inFromUser.readLine();
-            double porcentajeHumedad;
-            try {
-                porcentajeHumedad = Double.parseDouble(strporcentajeHumedad);
-            } catch (Exception e1) {
-                throw new Exception("El porcentaje de humedad debe ser numérico");
-            }
-
-            System.out.print("Ingrese la temperatura (debe ser numérico): ");
-            String strtemperatura = inFromUser.readLine();
-            double temperatura;
-            try {
-                temperatura = Double.parseDouble(strtemperatura);
-            } catch (Exception e1) {
-                throw new Exception("La temperatura debe ser numérico");
-            }
-
-            System.out.print("Ingrese la velocidad del viento (debe ser numérico): ");
-            String strvelocidadViento = inFromUser.readLine();
-            double velocidadViento;
-            try {
-                velocidadViento = Double.parseDouble(strvelocidadViento);
-            } catch (Exception e1) {
-                throw new Exception("La velocidad del viento debe ser numérico");
-            }
-
-            System.out.print("Ingrese la fecha (dd/mm/aaaa): ");
-            String fecha = inFromUser.readLine();
-
-            System.out.print("Ingrese la hora (hh:mm:ss): ");
-            String hora = inFromUser.readLine();
-
-            Sensor sensor = new Sensor(idEstacion, porcentajeHumedad, velocidadViento, fecha, hora, temperatura,
-                    ciudad);
-
-            String json = SensorJSON.objetoString(sensor);
-
-            sendData = json.getBytes();
-
-            System.out.println("Enviar " + json + " al servidor. (" + sendData.length + " bytes)");
             DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, puertoServidor);
 
+            System.out.println("Enviando paquete...");
             clientSocket.send(sendPacket);
 
             DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
 
-            System.out.println("Esperamos si viene la respuesta.");
+            
 
-            // Vamos a hacer una llamada BLOQUEANTE entonces establecemos un timeout maximo
-            // de espera
-            clientSocket.setSoTimeout(10000);
+            if (operacion.equals("1")) {
+                // retornar todos los sensores
+                System.out.println("Operacion: " + operacion + " - Retornar todos los sensores");
+                System.out.println("________________________________________________");
 
-            try {
-                // ESPERAMOS LA RESPUESTA, BLOQUENTE
+                // keep receiving packets until we receive the "END" packet
+                while (true) {
+                    clientSocket.receive(receivePacket);
+                    String json = new String(receivePacket.getData(), 0, receivePacket.getLength());
+                    if (json.equals("END")) {
+                        break;
+                    }
+                    System.out.println("Recibiendo: " + json);
+                }
+
+            } else if (operacion.equals("2")) {
+                // retornar la temperatura de un sensor en particular dependiendo de la ciudad
+                System.out.println("Operacion: " + operacion
+                        + " - Retornar la temperatura de un sensor en particular dependiendo de la ciudad");
+
+                System.out.println("________________________________________________");
+                // ASk for ciudad
+                System.out.println("Ingrese la ciudad: ");
+                String ciudad = inFromUser.readLine();
+
+                sendData = ciudad.getBytes();
+
+                sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, puertoServidor);
+
+                System.out.println("Enviando paquete...");
+
+                clientSocket.send(sendPacket);
+
+                receivePacket = new DatagramPacket(receiveData, receiveData.length);
+
+                System.out.println("Esperando por paquete...");
+
                 clientSocket.receive(receivePacket);
 
-                String respuesta = new String(receivePacket.getData());
-                Sensor presp = SensorJSON.stringObjeto(respuesta.trim());
+                //Recibimos el sensor 
+                String json = new String(receivePacket.getData(), 0, receivePacket.getLength());
 
-                InetAddress returnIPAddress = receivePacket.getAddress();
-                int port = receivePacket.getPort();
+                System.out.println("Recibiendo: " + json);
 
-                System.out.println("Respuesta desde =  " + returnIPAddress + ":" + port);
+            } else {
+                System.out.println("Operacion: " + operacion + " - No existe");
 
-            } catch (SocketTimeoutException ste) {
-
-                System.out.println("TimeOut: El paquete udp se asume perdido.");
             }
-            clientSocket.close();
+
+            // clientSocket.close();
         } catch (UnknownHostException ex) {
             System.err.println(ex);
         } catch (IOException ex) {

@@ -121,7 +121,7 @@ public class SensorDAO {
 
     public long insertar(Sensor p) throws SQLException {
 
-        String SQL = "INSERT INTO sensor (idEstacion, porcentajeHumedad, velocidadViento, fecha, hora, temperatura, ciudad) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String SQL = "INSERT INTO sensor (id_estacion, porcentaje_humedad, velocidad_viento, fecha, hora, temperatura, ciudad) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         long id = 0;
         Connection conn = null;
@@ -129,7 +129,7 @@ public class SensorDAO {
         try {
             conn = Bd.connect();
             PreparedStatement pstmt = conn.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
-            pstmt.setInt(1, p.getIdEstacion());
+            pstmt.setLong(1, p.getIdEstacion());
             pstmt.setDouble(2, p.getPorcentajeHumedad());
             pstmt.setDouble(3, p.getVelocidadViento());
             pstmt.setString(4, p.getFecha());
@@ -173,14 +173,14 @@ public class SensorDAO {
         try {
             conn = Bd.connect();
             PreparedStatement pstmt = conn.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
-            pstmt.setInt(1, p.getIdEstacion());
+            pstmt.setLong(1, p.getIdEstacion());
             pstmt.setDouble(2, p.getPorcentajeHumedad());
             pstmt.setDouble(3, p.getVelocidadViento());
             pstmt.setString(4, p.getFecha());
             pstmt.setString(5, p.getHora());
             pstmt.setDouble(6, p.getTemperatura());
             pstmt.setString(7, p.getCiudad());
-            pstmt.setInt(8, p.getIdEstacion());
+            pstmt.setLong(8, p.getIdEstacion());
 
             int affectedRows = pstmt.executeUpdate();
             // check the affected rows
